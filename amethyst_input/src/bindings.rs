@@ -264,7 +264,8 @@ impl<T: BindingTypes> Bindings<T> {
         axis: Axis,
     ) -> Result<Option<Axis>, BindingError<T>> {
         let id = id.into();
-        self.check_axis_invariants(&id, &axis)?;
+        // NOTE: Don't check for invariants
+        // self.check_axis_invariants(&id, &axis)?;
         Ok(self.axes.insert(id, axis))
     }
 
@@ -300,7 +301,8 @@ impl<T: BindingTypes> Bindings<T> {
         binding: B,
     ) -> Result<(), BindingError<T>> {
         let bind: SmallVec<[Button; 2]> = binding.into_iter().collect();
-        self.check_action_invariants(&id, bind.as_slice())?;
+        // NOTE: Don't check for invariants
+        // self.check_action_invariants(&id, bind.as_slice())?;
         let mut make_new = false;
         match self.actions.get_mut(&id) {
             Some(action_bindings) => {
