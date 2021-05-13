@@ -1,6 +1,6 @@
 //! Provides the directory of the executable.
 
-use std::{io, path};
+use std::{env, io, path};
 
 /// Returns the cargo manifest directory when running the executable with cargo or the directory in
 /// which the executable resides otherwise, traversing symlinks if necessary. For wasm builds
@@ -25,7 +25,7 @@ pub fn application_root_dir() -> Result<path::PathBuf, io::Error> {
             return Ok(path::PathBuf::from(manifest_dir));
         }
 
-        let mut exe = std::env::current_exe()?.canonicalize()?;
+        let mut exe = dunce::canonicalize(env::current_exe()?)?;
 
         // Modify in-place to avoid an extra copy.
         if exe.pop() {
